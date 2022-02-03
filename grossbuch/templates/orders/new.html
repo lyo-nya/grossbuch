@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+<!---->
+{% block title %} Создать заказ {% endblock %}
+
+<!---->
+{% block content %}
+<form method="post">
+  <div class="uk-form-horizontal">
+    <div class="uk-margin">
+      <label class="uk-form-label" for="client">Заказчик</label>
+      <div class="uk-form-controls">
+        <input class="uk-input" autocomplete="off" id="client" name="client" />
+      </div>
+    </div>
+    <div class="uk-margin">
+      <label class="uk-form-label" for="description">Описание</label>
+      <div class="uk-form-controls">
+        <textarea
+          class="uk-textarea"
+          rows="2"
+          autocomplete="off"
+          id="description"
+          name="description"
+        ></textarea>
+      </div>
+    </div>
+  </div>
+  <button class="uk-button uk-button-secondary uk-width-1-1" type="submit">
+    Создать
+  </button>
+</form>
+{% endblock %}

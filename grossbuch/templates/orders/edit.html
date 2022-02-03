@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+<!---->
+{% block title %}Редактировать заказ{% endblock %}
+<!---->
+
+{% block content %}
+<div class="uk-card-badge uk-label">{{ order.date }}</div>
+
+<h2 class="uk-card-title uk-text-center">
+  <input
+    style="border: none"
+    form="edit-order"
+    name="client"
+    class="uk-card-title uk-text-center uk-input"
+    value="{{ order.client }}"
+  />
+  <a
+    href="{{ url_for('invoice', id=order.id, obj_type='order') }}"
+    class="uk-icon-button"
+    uk-icon="file-pdf"
+  ></a>
+</h2>
+
+<div>
+  <ul uk-tab>
+    <li>
+      <a href="#"> Состав </a>
+    </li>
+    <li>
+      <a href="#"> Описание </a>
+    </li>
+  </ul>
+  <ul class="uk-switcher uk-margin" uk-switcher="swiping: false;">
+    <li>
+      <div class="uk-overflow-auto">
+        <div>
+          <table class="{{table}}">
+            <thead>
+              <tr>
+                <th class="uk-table-expand">Услуга</th>
+                <th class="uk-table-shrink">Единица измерения</th>
+                <th class="uk-table-shrink">Цена</th>
+                <th class="uk-table-shrink">Объем</th>
+                <th class="uk-table-shrink">Стоимость</th>
+                <th class="uk-table-shrink"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <!---->
+              {% set banned_ids = [] %}
+              <!---->
+              {% for item in items %}
+              <tr id="{{item.job_id}}">
+                {% if banned_ids.append(item.job_id) %}{% endif %}
+                <td>{{item.title }}</td>
+                <td>{{item.unit }}</td>
+                <td>{{item.price}}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.price*item.quantity}}</td>
+                <td>
+                  <a
+                    href="{{ url_for('delete', id=item.id, obj_type='orderitem') }}"
+                    onclick="document.open(this.href)"
+                    class="uk-icon-button uk-icon"
+                    uk-icon="trash"
+                  ></a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <button
+        class="uk-button uk-button-default uk-width-1-1 hide-me"
+        type="button"
+        uk-toggle="target: .hide-me"
+      >
+        Добавить
+      </button>
+      <div class="uk-form-horizontal hide-me" hidden>
+        <div class="uk-margin">
+          <label class="uk-form-label" for="job_type"> Тип работ </label>
+          <div class="uk-form-controls">
+            <select
+              class="uk-select"
+              form="edit-order"
+              id="job_type"
+              name="job_type"
+            >
+              <option></option>
+            </select>
+          </div>
+        </div>
+        <div class="uk-margin">
+          <label class="uk-form-label" for="title"> Наименование работы </label>
+          <div class="uk-form-controls">
+            <select
+              class="uk-select"
+              form="edit-order"
+              id="title"
+              name="title"
+            ></select>
+          </div>
+        </div>
+        <div class="uk-margin">
+          <label class="uk-form-label">Единица измерения</label>
+          <div class="uk-form-controls" id="unit-container">
+            <input
+              class="uk-input"
+              type="text"
+              form="edit-order"
+              id="unit"
+              disabled
+            />
+          </div>
+        </div>
+        <div class="uk-margin">
+          <label class="uk-form-label">Цена</label>
+          <div class="uk-form-controls" id="unit-container">
+            <input
+              class="uk-input"
+              type="number"
+              form="edit-order"
+              id="price"
+              name="price"
+            />
+          </div>
+        </div>
+        <div class="uk-margin">
+          <label class="uk-form-label" for="quantity">Объем</label>
+          <div class="uk-form-controls">
+            <input
+              form="edit-order"
+              class="uk-input"
+              id="quantity"
+              type="number"
+              autocomplete="off"
+              name="quantity"
+            />
+          </div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <textarea
+        form="edit-order"
+        name="description"
+        class="uk-textarea"
+        rows="7"
+      >
+{{order.description }}</textarea
+      >
+    </li>
+  </ul>
+  <form id="edit-order">
+    <button
+      formmethod="post"
+      class="uk-button uk-button-secondary uk-width-1-1"
+      type="submit"
+    >
+      Сохранить
+    </button>
+  </form>
+</div>
+
+<script>
+  const banned_ids = {{ banned_ids }};
+  const response = fetch(
+      '{{url_for("get_data", table="pricelist")}}',
+  ).then((response) => response.json());
+  const jobType = document.getElementById('job_type');
+  const jobTitle = document.getElementById('title');
+  const measuremntUnit = document.getElementById('unit');
+  const price = document.getElementById('price');
+  window.onload = function() {
+    response.then((data) => {
+      for (item in data) {
+        newOption = document.createElement('option');
+        newOption.innerText = item;
+        jobType.appendChild(newOption);
+      }
+    });
+  };
+  jobType.onchange = function() {
+    response.then((data) => {
+        jobTitle.innerHTML = '<option></option>';
+      for (item in data[this.value]) {
+        var pricetagId = data[this.value][item].id;
+        if (banned_ids.includes(pricetagId) == false) {
+          newOption = document.createElement('option');
+          newOption.innerText = item;
+          newOption.value = pricetagId;
+          jobTitle.appendChild(newOption);
+        }
+      }
+    });
+  };
+  jobTitle.onchange = function() {
+    response.then((data) => {
+      var title = this.options[this.selectedIndex].text
+      measuremntUnit.value = '';
+      price.value = '';
+      measuremntUnit.value=data[jobType.value][title].unit
+      price.value=data[jobType.value][title].price
+    });
+  };
+</script>
+{% endblock %}

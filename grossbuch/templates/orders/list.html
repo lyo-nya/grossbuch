@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+<!-- Set title -->
+{% block title %} Заказы {% endblock %}
+
+<!-- Add content -->
+{% block content %}
+<div class="uk-overflow-auto">
+  <!-- This is just table with orders -->
+  {% if orders %}
+  <table class="{{table}}">
+    <thead>
+      <tr>
+        <th class="uk-table-shrink">Заказчик</th>
+        <th class="uk-text-expand">Детали</th>
+        <th class="uk-table-shrink">Дата</th>
+        <th class="uk-table-shrink">Сумма</th>
+        <th class="uk-table-shrink"></th>
+        <th class="uk-table-shrink"></th>
+        <th class="uk-table-shrink"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+      <tr id="{{ order.order_id }}">
+        <td class="uk-text-nowrap">{{ order.client }}</td>
+        <td class="uk-text-truncate">{{ order.description }}</td>
+        <td class="uk-text-nowrap">{{ order.date }}</td>
+        {% if order.total %}
+        <td>{{ order.total }}</td>
+        {% else %}
+        <td>0</td>
+        {% endif %}
+        <td>
+          <a
+            href="{{ url_for('invoice', id=order.id) }}"
+            class="uk-icon-button"
+            uk-icon="file-pdf"
+          ></a>
+        </td>
+        <td>
+          <a
+            class="uk-icon-button"
+            href="{{ url_for('order', id=order.id) }}"
+            uk-icon="file-edit"
+          ></a>
+        </td>
+        <td>
+          <a
+            href="{{ url_for('delete', id=order.id, obj_type='order') }}"
+            class="uk-icon-button"
+            uk-icon="trash"
+          ></a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>Заказов пока не было</p>
+  {% endif %}
+</div>
+{% endblock %}

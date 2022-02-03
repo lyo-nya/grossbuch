@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+<!---->
+{% block title %}
+{% if pricetag %} Редактировать ценник {% else %} Добавить ценник {% endif %}
+{% endblock %}
+
+<!-- Add content -->
+{% block content %}
+<form method="post">
+  <div class="uk-form-horizontal">
+    <div class="uk-margin">
+      <label class="uk-form-label" for="job_type">Тип работ</label>
+      <div class="uk-form-controls">
+        <input
+          class="uk-input"
+          id="job_type"
+          type="text"
+          value="{{ pricetag.job_type }}"
+          autocomplete="off"
+          list="types-list"
+          name="job_type"
+        />
+        <datalist id="types-list">
+          {% for type in hints.job_types %}
+          <option value="{{ type }}"></option>
+          {% endfor %}
+        </datalist>
+      </div>
+    </div>
+
+    <div class="uk-margin">
+      <label class="uk-form-label" for="title">Наименование работ</label>
+      <div class="uk-form-controls">
+        <input
+          class="uk-input"
+          autocomplete="off"
+          id="title"
+          name="title"
+          value="{{ pricetag.title }}"
+        />
+      </div>
+    </div>
+
+    <div class="uk-margin">
+      <label class="uk-form-label" for="unit">Единица измерения</label>
+      <div class="uk-form-controls">
+        <input
+          autocomplete="off"
+          class="uk-input"
+          name="unit"
+          id="unit"
+          list="units-list"
+          value="{{pricetag.unit}}"
+        />
+        <datalist id="units-list">
+          {% for unit in hints.unit %}
+          <option value="{{unit}}"></option>
+          {% endfor %}
+        </datalist>
+      </div>
+    </div>
+
+    <div class="uk-margin">
+      <label class="uk-form-label" for="price">Цена</label>
+      <div class="uk-form-controls">
+        <input
+          class="uk-input"
+          autocomplete="off"
+          id="price"
+          name="price"
+          type="number"
+          value="{{ pricetag.price }}"
+        />
+      </div>
+    </div>
+
+    <button class="uk-button uk-button-secondary uk-width-1-1" type="submit">
+      Сохранить
+    </button>
+  </div>
+</form>
+{% endblock %}

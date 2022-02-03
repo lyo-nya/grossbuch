@@ -1,0 +1,39 @@
+<div
+  id="navbar"
+  uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky"
+>
+  <nav
+    class="uk-navbar-container"
+    uk-navbar="dropbar: true; dropbar-mode: push; duration:300;"
+  >
+    <div class="uk-navbar-left">
+      <a class="uk-navbar-item uk-logo" href="{{ url_for('pricelist') }}"
+        >Прайс</a
+      >
+      <a class="uk-navbar-item uk-logo" href="{{ url_for('orders') }}"
+        >Заказы</a
+      >
+    </div>
+    <div class="uk-navbar-right">
+      <a class="uk-button" href="#container" uk-scroll uk-totop></a>
+      <ul class="uk-navbar-nav">
+        <li>
+          <a class="uk-navbar-item uk-logo" href="#">Добавить</a>
+          <div
+            class="uk-navbar-dropdown"
+            uk-drop="boundary: !nav; boundary-align: true; pos: top-justify; mode: click"
+          >
+            <ul class="uk-nav uk-navbar-dropdown-nav">
+              <li class="uk-logo">
+                <a href="{{ url_for('order', id='new') }}">Заказ</a>
+              </li>
+              <li class="uk-logo">
+                <a href="{{ url_for('pricetag', id='new') }}">Ценник</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>

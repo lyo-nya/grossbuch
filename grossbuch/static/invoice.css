@@ -1,0 +1,74 @@
+body {
+  background: #efefef;
+  font-family: "Roboto", sans-serif;
+}
+
+h2,
+.itemtext {
+  font-size: 0.9em;
+}
+
+h1 {
+  font-size: 1.5em;
+  color: #222;
+}
+
+h3 {
+  font-size: 1.2em;
+  font-weight: 300;
+  line-height: 2em;
+}
+
+p {
+  font-size: 0.7em;
+  color: #666;
+  line-height: 1.2em;
+}
+
+#invoice {
+  margin: 0 auto;
+  background: #fff;
+}
+
+[id*="invoice-"] {
+  border-bottom: 1px solid #eee;
+  padding: 10px;
+}
+
+#invoice-top {
+  min-height: 120px;
+}
+#invoice-bot {
+  min-height: 250px;
+}
+
+.title {
+  float: right;
+}
+
+.title p {
+  text-align: right;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td,
+.service {
+  border: 1px solid #eee;
+}
+
+td {
+  padding: 5px 15px;
+}
+
+.tabletitle {
+  padding: 5px;
+  background: #eee;
+}
+
+.item {
+  width: 50%;
+}

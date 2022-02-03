@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+<!-- Set title -->
+{% block title %}Прайс{% endblock %}
+
+<!-- Add content -->
+{% block content %}
+<!-- Accordeon (series of drop-down menus) for pricetags -->
+<ul uk-accordion="multiple: true">
+  <!-- Iterage over job categories  -->
+  {% for job_type, pricetags in pricelist.items() %}
+  <li class="uk">
+    <!-- Set header -->
+    <a class="uk-accordion-title" href="#"
+      ><h3 class="uk-card-title">{{job_type}}</h3></a
+    >
+    <!-- Construnct pricing table -->
+    <div class="uk-accordion-content">
+      <div class="uk-overflow-auto">
+        <table class="{{table}}">
+          <thead>
+            <tr>
+              <th class="uk-table-expand">Услуга</th>
+              <th class="uk-table-shrink">Единица измерения</th>
+              <th class="uk-table-shrink">Цена</th>
+              <th class="uk-table-shrink"></th>
+              <th class="uk-table-shrink"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Iterate over pricetags for given job type and add rows -->
+            {% for title, details in pricetags.items() %}
+            <tr id="{{ details.id }}">
+              <td>{{ title }}</td>
+              <td>{{ details.unit }}</td>
+              <td>{{ details.price}}</td>
+              <td>
+                <a
+                  class="uk-icon-button"
+                  href="{{ url_for('pricetag', id=details.id) }}"
+                  uk-icon="file-edit"
+                ></a>
+              </td>
+              <td>
+                <a
+                  href="{{ url_for('delete', id=details.id, obj_type='pricetag') }}"
+                  class="uk-icon-button"
+                  uk-icon="trash"
+                ></a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}

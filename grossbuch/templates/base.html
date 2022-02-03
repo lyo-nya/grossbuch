@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<!---->
+{% set container="uk-container uk-margin-top" %}
+
+<!---->
+{% set table="uk-table uk-table-hover uk-table-divider table-uk-small" %}
+
+<html>
+  <head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- UIkit CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/css/uikit.min.css"
+    />
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/js/uikit-icons.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='main.css') }}"
+    />
+  </head>
+  <body>
+    <div class="{{container}}" id="container">
+      {% include "navbar.html" %}
+      <div class="uk-card uk-card-default uk-card-body uk-margin-top">
+        {% block content %}{% endblock %}
+      </div>
+    </div>
+  </body>
+</html>

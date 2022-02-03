@@ -1,0 +1,59 @@
+<!-- Based on this: https://codepen.io/YikesItsMikes/pen/bdBQJR -->
+<html>
+  <head>
+    <title>invoice_{{order.id}}</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='invoice.css')}}"
+    />
+  </head>
+  <body>
+    <div id="headerimage"></div>
+    <div id="invoice" class="effect2">
+      <div id="invoice-top">
+        <div class="title">
+          <h1>Заказ #{{order.id}}</h1>
+          <p>от {{order.date}}</p>
+        </div>
+      </div>
+      <div id="invoice-bot">
+        <div id="table">
+          <table>
+            <tr class="tabletitle">
+              <td class="item"><h2>Наименование работ</h2></td>
+              <td><h2>ед. изм.</h2></td>
+              <td><h2>Цена</h2></td>
+              <td><h2>Объем</h2></td>
+              <td class="subtotal"><h2>Стоимость</h2></td>
+            </tr>
+            {% set totals = [] %}
+            {% for item in items %}
+            {% if totals.append(item.price*item.quantity) %}{% endif %}
+            <tr class="service">
+              <td class="tableitem"><p class="itemtext">{{item.title}}</p></td>
+              <td class="tableitem"><p class="itemtext">{{item.unit}}</p></td>
+              <td class="tableitem"><p class="itemtext">{{item.price}}</p></td>
+              <td class="tableitem">
+                <p class="itemtext">{{item.quantity}}</p>
+              </td>
+              <td class="tableitem">
+                <p class="itemtext">{{item.price*item.quantity}}</p>
+              </td>
+            </tr>
+            {% endfor %}
+
+            <tr class="tabletitle">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="Rate"><h2>Итого</h2></td>
+              <td class="payment"><h2>{{totals|sum}}</h2></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

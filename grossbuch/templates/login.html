@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+<!---->
+{% block title %} Вход {% endblock %}
+
+<!---->
+{% block content %}
+<form>
+  <div class="uk-inline uk-width-1-2@s">
+    <span
+      class="uk-form-icon uk-form-icon-flip"
+      name="word"
+      uk-icon="icon: lock"
+    ></span>
+    <input
+      class="uk-input"
+      type="password"
+      name="word"
+      placeholder="Кодовое слово"
+    />
+  </div>
+  <button
+    formmethod="post"
+    class="uk-button uk-button-secondary"
+    type="submit"
+  >
+    Отправить
+  </button>
+</form>
+<!---->
+{% endblock %}
