@@ -24,5 +24,6 @@ def fill_db(filename):
     session.remove()
     return 0
 
+
 if __name__ == "__main__":
     fill_db(argv[1])
